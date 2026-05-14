@@ -6,10 +6,9 @@ This repository provides the official PyTorch implementation of the paper
 [![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b.svg)](https://arxiv.org/abs/XXXX.XXXXX)
 [![Paper](https://img.shields.io/badge/ICML%202026-Paper-blue)](PAPER_LINK)
 [![Dataset](https://img.shields.io/badge/HuggingFace-Dataset-yellow)](https://huggingface.co/datasets/jiae1234/vscd)
-[![License](https://img.shields.io/badge/License-Apache--2.0-green)](LICENSE)
 
 <p align="center">
-  <a href="#">Jiae Yoon</a> · <a href="#">Ue-Hwan Kim</a><br>
+  Jiae Yoon · Ue-Hwan Kim<br>
   <strong>ICML 2026</strong>
 </p>
 
@@ -22,10 +21,8 @@ This repository provides the official PyTorch implementation of the paper
 </p>
 
 <p align="center">
-  <em>
   VSCD introduces a video-based scene change detection setting with unconstrained
   camera motion, strong cross-view misalignment, and multiple object-level changes.
-  </em>
 </p>
 
 ## Highlights
@@ -52,36 +49,6 @@ VSCDNet consists of three main stages.
 
 3. **Confidence-aware feature fusion and decoding**  
    Candidate-level change features are fused using frame-level confidence and patch-level confidence. The fused feature is decoded once per query frame into a full-resolution change mask, with query RGB injection at high-resolution decoding stages.
-
-## Repository Structure
-
-```text
-VSCD/
-├── dataset/
-│   ├── dataset.py
-│   ├── collate.py
-│   └── transforms.py
-├── model/
-│   ├── alignment.py
-│   ├── backbone.py
-│   ├── decoder.py
-│   ├── fusion.py
-│   └── patch_matching.py
-├── scripts/
-│   ├── train_default.sh
-│   ├── eval_default.sh
-│   ├── train_wo_at.sh
-│   ├── train_wo_cf.sh
-│   ├── train_wo_csp.sh
-│   ├── train_wo_cf_csp.sh
-│   ├── run_module_ablations.sh
-│   └── run_hparam_ablations.sh
-├── train.py
-├── eval.py
-├── loss.py
-├── requirements.txt
-└── README.md
-```
 
 ## Installation
 
@@ -231,49 +198,6 @@ python eval.py \
   --save_pred
 ```
 
-## Module Ablations
-
-The paper reports module ablations for the Alignment Token (AT), frame-level confidence (`C_f`), and patch-level confidence (`C_sp`).
-
-Run all module ablations:
-
-```bash
-DATA_ROOT=/path/to/vscd_dataset \
-SAM_ROOT=/path/to/segment-anything \
-SAM_CKPT=/path/to/sam_vit_b_01ec64.pth \
-bash scripts/run_module_ablations.sh
-```
-
-Individual runs:
-
-```bash
-bash scripts/train_wo_at.sh
-bash scripts/train_wo_cf.sh
-bash scripts/train_wo_csp.sh
-bash scripts/train_wo_cf_csp.sh
-```
-
-## Hyper-parameter Ablations
-
-Run hyper-parameter ablations:
-
-```bash
-DATA_ROOT=/path/to/vscd_dataset \
-SAM_ROOT=/path/to/segment-anything \
-SAM_CKPT=/path/to/sam_vit_b_01ec64.pth \
-bash scripts/run_hparam_ablations.sh
-```
-
-The default configuration is:
-
-```text
-K = 4
-|S_t|max = 6
-k = 5
-Lmax = 5
-T_key = 32
-```
-
 ## Dataset
 
 The VSCD dataset will be released on Hugging Face:
@@ -341,25 +265,6 @@ Each training/evaluation sample consists of:
 - a reference video from `scene{a}_frames/`,
 - a query video from `scene{b}_frames/`,
 - query-aligned change masks from `change_mask_scene{a}_to_scene{b}_frames/`.
-
-
-## Results
-
-VSCDNet outperforms representative image-based scene change detection and video-based abandoned object detection baselines on both synthetic and real-world VSCD evaluation.
-
-### Synthetic VSCD
-
-<p align="center">
-  <img src="assets/results_syn.PNG" width="80%">
-</p>
-
-### Real-world VSCD
-
-<p align="center">
-  <img src="assets/results_real.PNG" width="80%">
-</p>
-
-VSCDNet produces coherent object-level change masks under strong viewpoint differences and reduces spurious detections compared to image- and video-based baselines.
 
 ## Citation
 
