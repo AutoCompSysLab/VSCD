@@ -11,10 +11,19 @@ This repository provides the official PyTorch implementation of the paper
 > Jiae Yoon, Ue-Hwan Kim  
 > International Conference on Machine Learning (ICML), 2026
 
-VSCD addresses pixel-wise object-level change detection between two RGB videos of the same indoor environment captured at different times under unconstrained camera motion. Unlike previous image-pair or trajectory-aligned video change detection settings, VSCD assumes no temporal synchronization, no camera pose, no geometric calibration, and no explicit 3D reconstruction at inference time.
+<p align="center">
+  <img src="assets/teaser_pre.PNG" width="95%">
+</p>
 
 <p align="center">
-  <img src="assets/teaser.png" width="90%">
+  <img src="assets/teaser_ours.PNG" width="95%">
+</p>
+
+<p align="center">
+  <em>
+  VSCD introduces a video-based scene change detection setting with unconstrained
+  camera motion, strong cross-view misalignment, and multiple object-level changes.
+  </em>
 </p>
 
 ## Highlights
@@ -25,78 +34,10 @@ VSCD addresses pixel-wise object-level change detection between two RGB videos o
 - **VSCDNet**: a query-centric multi-reference model with frame-level alignment, patch-level correspondence, confidence-aware feature fusion, and query-guided high-resolution decoding.
 - **Real-world validation**: demonstrated on a mobile robot for visual surveillance and object incremental learning.
 
-## Dataset
-
-The VSCD dataset will be released on Hugging Face:
-
-```text
-https://huggingface.co/datasets/jiae1234/vscd
-```
-
-The benchmark contains reference-query video pairs from the same indoor environment, captured at different times and along different camera trajectories. For each query video, pixel-wise change masks are provided for object-level changes such as appearances, disappearances, and relocations.
-
-### Dataset Structure
-
-The code expects the dataset to be organized as follows:
-
-```text
-<DATA_ROOT>/
-  train/
-    <space_name>/
-      scene0_frames/
-        scene0_0000.jpg
-        scene0_0001.jpg
-        ...
-      scene1_frames/
-        scene1_0000.jpg
-        scene1_0001.jpg
-        ...
-      scene2_frames/
-      scene3_frames/
-      scene4_frames/
-      change_mask_scene0_to_scene1_frames/
-        change_mask_scene0_to_scene1_0000.jpg
-        change_mask_scene0_to_scene1_0001.jpg
-        ...
-      change_mask_scene1_to_scene2_frames/
-      change_mask_scene2_to_scene3_frames/
-      change_mask_scene3_to_scene4_frames/
-      change_mask_scene4_to_scene0_frames/
-
-  test/
-    <space_name>/
-      scene0_frames/
-      scene1_frames/
-      scene2_frames/
-      scene3_frames/
-      scene4_frames/
-      change_mask_scene0_to_scene1_frames/
-      change_mask_scene1_to_scene2_frames/
-      change_mask_scene2_to_scene3_frames/
-      change_mask_scene3_to_scene4_frames/
-      change_mask_scene4_to_scene0_frames/
-```
-
-The default directed scene pairs are:
-
-```text
-0 -> 1
-1 -> 2
-2 -> 3
-3 -> 4
-4 -> 0
-```
-
-Each training/evaluation sample consists of:
-
-- a reference video from `scene{a}_frames/`,
-- a query video from `scene{b}_frames/`,
-- query-aligned change masks from `change_mask_scene{a}_to_scene{b}_frames/`.
-
 ## Method Overview
 
 <p align="center">
-  <img src="assets/architecture.png" width="95%">
+  <img src="assets/model_architecture.PNG" width="95%">
 </p>
 
 VSCDNet consists of three main stages.
@@ -331,41 +272,92 @@ Lmax = 5
 T_key = 32
 ```
 
+## Dataset
+
+The VSCD dataset will be released on Hugging Face:
+
+```text
+https://huggingface.co/datasets/jiae1234/vscd
+```
+
+The benchmark contains reference-query video pairs from the same indoor environment, captured at different times and along different camera trajectories. For each query video, pixel-wise change masks are provided for object-level changes such as appearances, disappearances, and relocations.
+
+### Dataset Structure
+
+The code expects the dataset to be organized as follows:
+
+```text
+<DATA_ROOT>/
+  train/
+    <space_name>/
+      scene0_frames/
+        scene0_0000.jpg
+        scene0_0001.jpg
+        ...
+      scene1_frames/
+        scene1_0000.jpg
+        scene1_0001.jpg
+        ...
+      scene2_frames/
+      scene3_frames/
+      scene4_frames/
+      change_mask_scene0_to_scene1_frames/
+        change_mask_scene0_to_scene1_0000.jpg
+        change_mask_scene0_to_scene1_0001.jpg
+        ...
+      change_mask_scene1_to_scene2_frames/
+      change_mask_scene2_to_scene3_frames/
+      change_mask_scene3_to_scene4_frames/
+      change_mask_scene4_to_scene0_frames/
+
+  test/
+    <space_name>/
+      scene0_frames/
+      scene1_frames/
+      scene2_frames/
+      scene3_frames/
+      scene4_frames/
+      change_mask_scene0_to_scene1_frames/
+      change_mask_scene1_to_scene2_frames/
+      change_mask_scene2_to_scene3_frames/
+      change_mask_scene3_to_scene4_frames/
+      change_mask_scene4_to_scene0_frames/
+```
+
+The default directed scene pairs are:
+
+```text
+0 -> 1
+1 -> 2
+2 -> 3
+3 -> 4
+4 -> 0
+```
+
+Each training/evaluation sample consists of:
+
+- a reference video from `scene{a}_frames/`,
+- a query video from `scene{b}_frames/`,
+- query-aligned change masks from `change_mask_scene{a}_to_scene{b}_frames/`.
+
+
 ## Results
 
 VSCDNet outperforms representative image-based scene change detection and video-based abandoned object detection baselines on both synthetic and real-world VSCD evaluation.
 
+### Synthetic VSCD
+
 <p align="center">
-  <img src="assets/qualitative.png" width="95%">
+  <img src="assets/results_syn.PNG" width="80%">
 </p>
 
-Example qualitative results show that VSCDNet produces more stable object-level change masks under severe viewpoint mismatch and unconstrained camera motion.
+### Real-world VSCD
 
-## Recommended Figures
+<p align="center">
+  <img src="assets/results_real.PNG" width="80%">
+</p>
 
-We recommend adding the following images under `assets/`:
-
-```text
-assets/
-  teaser.png              # paper Fig. 1 or a cropped teaser version
-  architecture.png        # paper Fig. 2
-  qualitative.png         # paper Fig. 3, Fig. 6, or Fig. 7
-  robot_application.png   # optional, paper Fig. 4
-```
-
-Suggested placement:
-
-- `teaser.png`: top of the README, below the abstract-style description.
-- `architecture.png`: under **Method Overview**.
-- `qualitative.png`: under **Results**.
-- `robot_application.png`: optional section for real-world applications.
-
-## Notes
-
-- The released code follows the paper setting: SAM ViT-B, 1024×1024 inputs, and a 64×64 token grid.
-- The SAM checkpoint is not included in this repository. Please download it separately from the official Segment Anything release.
-- Dataset files and trained checkpoints are not included in this repository.
-- The default scripts assume the dataset split folders are named `train/` and `test/`.
+VSCDNet produces coherent object-level change masks under strong viewpoint differences and reduces spurious detections compared to image- and video-based baselines.
 
 ## Citation
 
@@ -381,9 +373,10 @@ If you find this repository or dataset useful, please cite:
 ```
 
 ## Acknowledgements
+This implementation is built upon:
 
-This work uses the Segment Anything image encoder. We thank the authors of Segment Anything for releasing their code and pretrained models.
+* Segment Anything Model (SAM)
+  [https://github.com/facebookresearch/segment-anything](https://github.com/facebookresearch/segment-anything)
 
-## License
+We thank the authors of Segment Anything for releasing their code and pretrained models.
 
-This repository is released for research purposes. Please check the license file for details.
