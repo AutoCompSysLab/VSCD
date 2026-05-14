@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.ipynb_checkpoints/
+
+# Environments
+.venv/
+venv/
+env/
+conda/
+*.egg-info/
+
+# Logs and outputs
+runs/
+outputs/
+logs/
+wandb/
+tensorboard/
+*.log
+
+# Checkpoints and large model/data files
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+
+# Dataset
+data/
+datasets/
+vscd_dataset/
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
