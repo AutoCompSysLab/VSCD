@@ -8,15 +8,17 @@ This repository provides the official PyTorch implementation of the paper
 [![Dataset](https://img.shields.io/badge/HuggingFace-Dataset-yellow)](https://huggingface.co/datasets/jiae1234/vscd)
 [![License](https://img.shields.io/badge/License-Apache--2.0-green)](LICENSE)
 
-> Jiae Yoon, Ue-Hwan Kim  
-> International Conference on Machine Learning (ICML), 2026
-
 <p align="center">
-  <img src="assets/teaser_pre.PNG" width="95%">
+  <a href="#">Jiae Yoon</a> · <a href="#">Ue-Hwan Kim</a><br>
+  <strong>ICML 2026</strong>
 </p>
 
 <p align="center">
-  <img src="assets/teaser_ours.PNG" width="95%">
+  <img src="assets/teaser_pre.PNG" width="90%">
+</p>
+
+<p align="center">
+  <img src="assets/teaser_ours.PNG" width="90%">
 </p>
 
 <p align="center">
