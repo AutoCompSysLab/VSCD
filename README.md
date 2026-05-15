@@ -13,11 +13,7 @@ This repository provides the official PyTorch implementation of the paper
 </p>
 
 <p align="center">
-  <img src="assets/teaser_pre.PNG" width="90%">
-</p>
-
-<p align="center">
-  <img src="assets/teaser_ours.PNG" width="90%">
+  <img src="assets/model_architecture.PNG" width="95%">
 </p>
 
 <p align="center">
@@ -33,23 +29,6 @@ This repository provides the official PyTorch implementation of the paper
 - **VSCDNet**: a query-centric multi-reference model with frame-level alignment, patch-level correspondence, confidence-aware feature fusion, and query-guided high-resolution decoding.
 - **Real-world validation**: demonstrated on a mobile robot for visual surveillance and object incremental learning.
 
-## Method Overview
-
-<p align="center">
-  <img src="assets/model_architecture.PNG" width="95%">
-</p>
-
-VSCDNet consists of three main stages.
-
-1. **Frame-level alignment**  
-   Each reference/query keyframe is encoded with a frozen SAM ViT image encoder. A learnable alignment token and average-pooled patch tokens are used to build frame descriptors. A soft frame-matching distribution is computed between query and reference frames.
-
-2. **Patch-level correspondence**  
-   For each query-reference candidate pair, VSCDNet computes local patch correlation within a `k × k` window on the 64×64 token grid and warps reference features toward the query feature grid.
-
-3. **Confidence-aware feature fusion and decoding**  
-   Candidate-level change features are fused using frame-level confidence and patch-level confidence. The fused feature is decoded once per query frame into a full-resolution change mask, with query RGB injection at high-resolution decoding stages.
-
 ## Installation
 
 ### 1. Clone this repository
@@ -59,31 +38,13 @@ git clone https://github.com/AutoCompSysLab/VSCD.git
 cd VSCD
 ```
 
-### 2. Create environment
-
-```bash
-conda create -n vscd python=3.10 -y
-conda activate vscd
-```
-
-### 3. Install dependencies
+### 2. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-A minimal `requirements.txt` is:
-
-```text
-torch
-torchvision
-numpy
-pillow
-tqdm
-opencv-python
-```
-
-### 4. Prepare Segment Anything
+### 3. Prepare Segment Anything
 
 VSCDNet uses a frozen SAM ViT-B image encoder. Please clone the official Segment Anything repository and download the SAM ViT-B checkpoint.
 
@@ -99,19 +60,6 @@ SAM_CKPT=/path/to/sam_vit_b_01ec64.pth
 ```
 
 ## Training
-
-Default training follows the paper setting:
-
-- SAM ViT-B frozen image encoder,
-- input resolution: 1024×1024,
-- token grid: 64×64,
-- `T_key = 32`,
-- `K = 4`,
-- `|S_t|max = 6`,
-- local patch window `k = 5`,
-- `Lmax = 5`,
-- softmax temperature `τ_f = 0.5`,
-- BCE-with-logits + soft Dice loss.
 
 Run:
 
