@@ -1,7 +1,7 @@
 # VSCD: Video-based Scene Change Detection in Unaligned Scenes
 
 This repository provides the official PyTorch implementation of the paper  
-**"VSCD: Video-based Scene Change Detection in Unaligned Scenes"**
+**"VSCD: Video-based Scene Change Detection in Unaligned Scenes (ICML 2026)."**
 
 [![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b.svg)](https://arxiv.org/abs/XXXX.XXXXX)
 [![Paper](https://img.shields.io/badge/ICML%202026-Paper-blue)](PAPER_LINK)
